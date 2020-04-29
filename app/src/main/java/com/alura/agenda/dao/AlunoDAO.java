@@ -1,5 +1,7 @@
 package com.alura.agenda.dao;
 
+import androidx.annotation.Nullable;
+
 import com.alura.agenda.model.Aluno;
 
 import java.util.ArrayList;
@@ -7,46 +9,47 @@ import java.util.Collections;
 import java.util.List;
 
 public class AlunoDAO {
+
     private final static List<Aluno> alunos = new ArrayList<>();
-    private static int id = 1;
+    private static int contadorDeIds = 1;
 
     public void salvar(Aluno aluno) {
-        aluno.setId(id);
+        aluno.setId(contadorDeIds);
         alunos.add(aluno);
-        atualizarId();
+        atualizaIds();
     }
 
-    private void atualizarId() {
-        id++;
+    private void atualizaIds() {
+        contadorDeIds++;
     }
 
     public void editar(Aluno aluno) {
-        Aluno alunoEncontrado = buscarAlunoPeloId(aluno.getId());
-        if(alunoEncontrado != null) {
-            int position = alunos.indexOf(alunoEncontrado);
-            alunos.set(position, aluno);
+        Aluno alunoEncontrado = buscaAlunoPeloId(aluno);
+        if (alunoEncontrado != null) {
+            int posicaoDoAluno = alunos.indexOf(alunoEncontrado);
+            alunos.set(posicaoDoAluno, aluno);
         }
     }
 
-    private Aluno buscarAlunoPeloId(Integer id) {
-        for (Aluno a: alunos) {
-            Integer i = a.getId();
-            if(i == id) {
+    @Nullable
+    private Aluno buscaAlunoPeloId(Aluno aluno) {
+        for (Aluno a :
+                alunos) {
+            if (a.getId() == aluno.getId()) {
                 return a;
             }
         }
         return null;
     }
 
-    public List<Aluno> getTodosAlunos() {
-        return alunos;
+    public List<Aluno> todos() {
+        return new ArrayList<>(alunos);
     }
 
     public void remover(Aluno aluno) {
-        Aluno alunoRemovido = buscarAlunoPeloId(aluno.getId());
-        if(alunoRemovido != null) {
-            alunos.remove(alunoRemovido);
+        Aluno alunoDevolvido = buscaAlunoPeloId(aluno);
+        if(alunoDevolvido != null){
+            alunos.remove(alunoDevolvido);
         }
-    }
-}
+    }}
 
