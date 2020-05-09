@@ -60,8 +60,7 @@ public class Aluno implements Serializable {
     }
 
     public boolean validarId() {
-        if(id > 0 ) { return true; }
-        else return false;
+        return id > 0;
 
     }
 }
